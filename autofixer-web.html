@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autofixer — Míralo. Siéntelo. Cómpralo.</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg-color: #ffffff;
+    --surface: #f8f8f8;
+    --surface-2: #eeeeee;
+    --text-main: #000000;
+    --text-muted: #666666;
+    --border: #e0e0e0;
+    --border-dark: #000000;
+    --orange: #ff4500; /* Teenage Engineering / Nothing orange */
+    --orange-glow: rgba(255, 69, 0, 0.1);
+    --white: #ffffff;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg-color);
+    color: var(--text-main);
+    overflow-x: hidden;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* Typography extensions */
+  .mono {
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 3rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(4px);
+    border-bottom: 1px solid var(--border-dark);
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+  }
+  .nav-logo img {
+    height: 32px;
+    object-fit: contain;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--orange); }
+  .nav-cta {
+    background: var(--text-main);
+    color: var(--white);
+    border: none;
+    padding: 0.55rem 1.4rem;
+    border-radius: 0; /* Boxy tech look */
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    transition: background 0.2s, color 0.2s;
+  }
+  .nav-cta:hover { background: var(--orange); color: var(--white); }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 6rem 2rem 4rem;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background: var(--bg-color);
+  }
+
+  .hero-grid-lines {
+    position: absolute; inset: 0; z-index: 0;
+    background-image:
+      linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+  }
+
+  .hero-eyebrow {
+    position: relative; z-index: 1;
+    font-size: 0.68rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.75rem;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+  }
+  .hero-eyebrow::before, .hero-eyebrow::after {
+    content: '';
+    display: block;
+    width: 32px; height: 1px;
+    background: var(--orange);
+  }
+
+  .hero-headline {
+    position: relative; z-index: 1;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4.5rem, 11vw, 10rem);
+    line-height: 0.92;
+    letter-spacing: 0.04em;
+    text-align: center;
+    color: var(--text-main);
+  }
+  .hero-headline .accent { color: var(--orange); }
+
+  .hero-sub {
+    position: relative; z-index: 1;
+    font-size: 1rem;
+    color: var(--text-muted);
+    text-align: center;
+    max-width: 500px;
+    margin: 1.75rem auto 0;
+    font-weight: 400;
+    line-height: 1.75;
+  }
+
+  .hero-actions {
+    position: relative; z-index: 1;
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 2.5rem;
+  }
+  .btn-primary {
+    background: var(--orange);
+    color: var(--white);
+    border: 2px solid var(--orange);
+    padding: 0.85rem 2rem;
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    border-radius: 0;
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+  }
+  .btn-primary:hover { background: var(--text-main); border-color: var(--text-main); color: var(--white); transform: translateY(-2px); }
+  
+  .btn-ghost {
+    background: transparent;
+    color: var(--text-main);
+    border: 2px solid var(--text-main);
+    padding: 0.85rem 2rem;
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    border-radius: 0;
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+  }
+  .btn-ghost:hover { background: var(--text-main); color: var(--white); transform: translateY(-2px); }
+
+  /* CAR VISUALIZER */
+  .car-viz {
+    position: relative; z-index: 1;
+    width: 100%; max-width: 860px;
+    margin: 4rem auto 0;
+  }
+
+  .car-stage {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--border-dark);
+    padding: 3rem 2rem 2rem;
+    overflow: hidden;
+  }
+
+  .car-stage::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 10%; right: 10%;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .car-svg-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: grab;
+  }
+
+  /* Porsche SVG */
+  .porsche-svg { width: 100%; max-width: 700px; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.05)); }
+
+  /* Rotation hint */
+  .rotate-hint {
+    text-align: center;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 1rem;
+    font-family: 'Space Mono', monospace;
+    display: flex; align-items: center; gap: 0.5rem; justify-content: center;
+  }
+  .rotate-hint svg { width: 14px; height: 14px; stroke: var(--text-muted); }
+
+  /* Stats HUD */
+  .stats-hud {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border-dark);
+    border: 1px solid var(--border-dark);
+    border-top: none;
+  }
+  .stat-cell {
+    background: var(--white);
+    padding: 1.1rem 1rem;
+    text-align: center;
+    transition: background 0.2s;
+  }
+  .stat-cell:hover { background: var(--surface); }
+  .stat-val {
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+    color: var(--text-main);
+    line-height: 1;
+  }
+  .stat-val .unit {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-left: 4px;
+    font-weight: 400;
+  }
+  .stat-lbl {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 0.35rem;
+    font-weight: 500;
+  }
+  .stat-cell.highlight .stat-val { color: var(--orange); }
+
+  /* COLOR PICKER */
+  .color-picker {
+    display: flex; align-items: center; gap: 0.75rem;
+    position: absolute; top: 1.25rem; right: 1.25rem;
+  }
+  .color-dot {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid var(--border);
+    transition: border-color 0.2s, transform 0.15s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  .color-dot:hover { transform: scale(1.15); }
+  .color-dot.active { border-color: var(--orange); }
+
+  /* SECTION LAYOUT */
+  section { padding: 6rem 3rem; border-top: 1px solid var(--border); }
+  .section-inner { max-width: 1000px; margin: 0 auto; }
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 0.75rem;
+    font-weight: 700;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    line-height: 1;
+    letter-spacing: 0.03em;
+    color: var(--text-main);
+    margin-bottom: 1.25rem;
+  }
+  .section-body {
+    font-size: 1rem;
+    color: var(--text-muted);
+    max-width: 520px;
+    line-height: 1.75;
+    font-weight: 400;
+  }
+
+  /* PROBLEM SECTION */
+  .bg-surface { background: var(--surface); }
+  
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border-dark);
+    border: 1px solid var(--border-dark);
+    margin-top: 3rem;
+  }
+  .problem-side {
+    padding: 2.5rem;
+    background: var(--surface-2);
+  }
+  .problem-side.right { background: var(--white); }
+  .problem-side-label {
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    padding: 0.3rem 0.75rem;
+    display: inline-block;
+    border: 1px solid currentColor;
+  }
+  .problem-side-label.bad { color: var(--text-muted); border-color: var(--border); }
+  .problem-side-label.good { color: var(--orange); border-color: var(--orange); background: var(--orange-glow); }
+  .pain-list { list-style: none; }
+  .pain-list li {
+    padding: 0.65rem 0;
+    border-bottom: 1px dashed var(--border);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .pain-list li:last-child { border-bottom: none; }
+  .pain-list li .icon { font-size: 1rem; }
+  .pain-list li.good-item { color: var(--text-main); font-weight: 500; }
+
+  /* FEATURES */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border-dark);
+    border: 1px solid var(--border-dark);
+    margin-top: 3rem;
+  }
+  .feature-card {
+    background: var(--white);
+    padding: 2rem;
+    transition: background 0.2s;
+  }
+  .feature-card:hover { background: var(--surface); }
+  .feature-num {
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 2.5rem;
+    color: var(--orange);
+    line-height: 1;
+    margin-bottom: 1rem;
+    letter-spacing: -0.05em;
+  }
+  .feature-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.02em;
+  }
+  .feature-desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 400;
+    line-height: 1.6;
+  }
+
+  /* HOW IT WORKS */
+  .steps-row {
+    display: grid;
+    grid-template-columns: 1fr 40px 1fr 40px 1fr;
+    align-items: center;
+    gap: 0;
+    margin-top: 3rem;
+  }
+  .step-box {
+    background: var(--white);
+    border: 1px solid var(--border-dark);
+    padding: 2rem 1.5rem;
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.05);
+  }
+  .step-num {
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 2rem;
+    color: var(--orange);
+    line-height: 1;
+    margin-bottom: 0.75rem;
+    border-bottom: 2px solid var(--text-main);
+    display: inline-block;
+    padding-bottom: 0.25rem;
+  }
+  .step-title {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--text-main);
+    margin-bottom: 0.4rem;
+    margin-top: 1rem;
+  }
+  .step-desc { font-size: 0.82rem; color: var(--text-muted); font-weight: 400; }
+  .step-arrow {
+    text-align: center;
+    color: var(--border-dark);
+    font-size: 1.5rem;
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* TESTIMONIALS */
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border-dark);
+    border: 1px solid var(--border-dark);
+    margin-top: 3rem;
+  }
+  .testimonial {
+    background: var(--white);
+    padding: 2.5rem;
+  }
+  .testimonial-quote {
+    font-size: 1.05rem;
+    color: var(--text-main);
+    font-weight: 400;
+    line-height: 1.75;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+  }
+  .testimonial-author {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-family: 'Space Mono', monospace;
+  }
+  .testimonial-author strong {
+    color: var(--text-main);
+    font-weight: 700;
+    display: block;
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.15rem;
+    font-style: normal;
+  }
+
+  /* PRICING */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 3rem;
+  }
+  .plan-card {
+    background: var(--white);
+    border: 1px solid var(--border-dark);
+    padding: 2.5rem 1.75rem;
+    position: relative;
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.05);
+  }
+  .plan-card.featured {
+    border: 2px solid var(--orange);
+    background: var(--surface);
+    box-shadow: 6px 6px 0px var(--orange-glow);
+  }
+  .plan-badge {
+    position: absolute;
+    top: -12px; left: 50%;
+    transform: translateX(-50%);
+    background: var(--orange);
+    color: var(--white);
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.85rem;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+  }
+  .plan-name {
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-main);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+  }
+  .plan-price {
+    font-family: 'Space Mono', monospace;
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    color: var(--text-main);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+  .plan-price span { font-size: 1.2rem; vertical-align: top; margin-top: 0.5rem; display: inline-block; font-weight: 400;}
+  .plan-period { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1.5rem; font-family: 'Space Mono', monospace;}
+  .plan-features { list-style: none; }
+  .plan-features li {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    padding: 0.45rem 0;
+    border-bottom: 1px dashed var(--border);
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .plan-features li:last-child { border-bottom: none; }
+  .plan-features li .check { color: var(--orange); font-size: 0.9rem; font-weight: bold;}
+  .plan-btn {
+    width: 100%;
+    margin-top: 1.5rem;
+    padding: 0.75rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    transition: background 0.2s, color 0.2s;
+    border-radius: 0;
+  }
+  .plan-btn.ghost {
+    background: transparent;
+    color: var(--text-main);
+    border: 1px solid var(--text-main);
+  }
+  .plan-btn.ghost:hover {
+    background: var(--text-main);
+    color: var(--white);
+  }
+  .plan-btn.solid {
+    background: var(--orange);
+    color: var(--white);
+    border: 1px solid var(--orange);
+  }
+  .plan-btn.solid:hover {
+    background: var(--text-main);
+    border-color: var(--text-main);
+  }
+
+  /* FINAL CTA */
+  .cta-section {
+    text-align: center;
+    padding: 8rem 3rem;
+    position: relative;
+    overflow: hidden;
+    background: var(--surface);
+  }
+  .cta-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background: radial-gradient(ellipse 60% 80% at 50% 50%, var(--orange-glow) 0%, transparent 70%);
+  }
+  .cta-line {
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 1px;
+    background: var(--border-dark);
+  }
+  .cta-title {
+    position: relative; z-index: 1;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 7vw, 6.5rem);
+    line-height: 1;
+    letter-spacing: 0.04em;
+    color: var(--text-main);
+    margin-bottom: 1.25rem;
+  }
+  .cta-sub {
+    position: relative; z-index: 1;
+    font-size: 1rem;
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-bottom: 2.5rem;
+  }
+  .cta-buttons {
+    position: relative; z-index: 1;
+    display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border-dark);
+    padding: 2rem 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--white);
+  }
+  .footer-logo img {
+    height: 24px;
+    object-fit: contain;
+  }
+  .footer-copy {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes rotateHint {
+    0%, 100% { transform: rotate(-8deg); }
+    50% { transform: rotate(8deg); }
+  }
+  .hero-eyebrow { animation: fadeUp 0.6s ease both; }
+  .hero-headline { animation: fadeUp 0.7s 0.1s ease both; }
+  .hero-sub { animation: fadeUp 0.7s 0.2s ease both; }
+  .hero-actions { animation: fadeUp 0.7s 0.3s ease both; }
+  .car-viz { animation: fadeUp 0.9s 0.4s ease both; }
+
+  @keyframes carFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-4px); }
+  }
+  .porsche-svg { animation: carFloat 5s ease-in-out infinite; }
+
+  /* Interactive color switch */
+  .car-body-fill { transition: fill 0.4s ease; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <img src="Autofixer.PNG" alt="Autofixer Logo">
+  </div>
+  <ul class="nav-links">
+    <li><a href="#features">Características</a></li>
+    <li><a href="#showcase">Exhibición</a></li>
+    <li><a href="#how">Cómo funciona</a></li>
+    <li><a href="#pricing">Precios</a></li>
+  </ul>
+  <button class="nav-cta">Unirse a la lista</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero" style="border-top: none;">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+
+  <p class="hero-eyebrow">Comercio Automotriz Inmersivo</p>
+  <h1 class="hero-headline">Míralo.<br><span class="accent">Siéntelo.</span><br>Cómpralo.</h1>
+  <p class="hero-sub">Experimenta vehículos de lujo a escala real en RV y RA antes de comprometerte con tu próxima compra. El futuro de las compras automotrices ya está aquí.</p>
+
+  <div class="hero-actions">
+    <button class="btn-primary" onclick="sendPrompt('Cuéntame más sobre la experiencia en RV de Autofixer y cómo acceder')">Explorar Demo ↗</button>
+    <button class="btn-ghost">Ver Experiencia</button>
+  </div>
+
+  <!-- Car Visualizer -->
+  <div class="car-viz" id="showcase">
+    <div class="car-stage">
+      <!-- Color Picker -->
+      <div class="color-picker">
+        <div class="color-dot active" style="background:#e8e8e8" title="Cromo Plateado" onclick="setColor('#e8e8e8', '#b0b5be', this)"></div>
+        <div class="color-dot" style="background:#1a1a1a" title="Negro Mate" onclick="setColor('#1a1a1a', '#333', this)"></div>
+        <div class="color-dot" style="background:#c0392b" title="Rojo Carmín" onclick="setColor('#c0392b', '#922b21', this)"></div>
+        <div class="color-dot" style="background:#1a3a5c" title="Azul Medianoche" onclick="setColor('#1a3a5c', '#102540', this)"></div>
+        <div class="color-dot" style="background:#2e7d32" title="Verde Carreras Británico" onclick="setColor('#2e7d32', '#1b5e20', this)"></div>
+      </div>
+
+      <div class="car-svg-wrap">
+        <!-- Porsche 911 Side Profile SVG -->
+        <svg class="porsche-svg" viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="wheelGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#dddddd"/>
+              <stop offset="60%" stop-color="#aaaaaa"/>
+              <stop offset="100%" stop-color="#666666"/>
+            </radialGradient>
+            <radialGradient id="tireGrad" cx="50%" cy="30%" r="60%">
+              <stop offset="0%" stop-color="#333"/>
+              <stop offset="100%" stop-color="#111"/>
+            </radialGradient>
+            <linearGradient id="bodyGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="rgba(255,255,255,0.7)"/>
+              <stop offset="40%" stop-color="rgba(255,255,255,0.2)"/>
+              <stop offset="100%" stop-color="rgba(0,0,0,0.1)"/>
+            </linearGradient>
+            <linearGradient id="glassGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="rgba(160,210,255,0.4)"/>
+              <stop offset="100%" stop-color="rgba(80,140,200,0.1)"/>
+            </linearGradient>
+            <filter id="groundShadow">
+              <feGaussianBlur stdDeviation="8" result="blur"/>
+              <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.25 0" in="blur" result="shadow"/>
+              <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          <!-- Ground shadow -->
+          <ellipse cx="350" cy="258" rx="230" ry="12" fill="rgba(0,0,0,0.1)" filter="url(#groundShadow)"/>
+
+          <!-- Body main -->
+          <path id="carBodyMain" class="car-body-fill" d="
+            M 100 220 L 85 200 L 90 175 L 120 148 L 165 128 L 210 118 L 240 112 L 285 100
+            L 340 92 L 390 90 L 435 92 L 470 98 L 500 108 L 525 122 L 545 140 L 565 158
+            L 580 175 L 590 190 L 600 210 L 600 225 L 575 230 L 480 232 L 280 232 L 170 230
+            L 100 228 Z
+          " fill="#e8e8e8"/>
+
+          <!-- Body gradient overlay -->
+          <path d="
+            M 100 220 L 85 200 L 90 175 L 120 148 L 165 128 L 210 118 L 240 112 L 285 100
+            L 340 92 L 390 90 L 435 92 L 470 98 L 500 108 L 525 122 L 545 140 L 565 158
+            L 580 175 L 590 190 L 600 210 L 600 225 L 100 228 Z
+          " fill="url(#bodyGrad)"/>
+
+          <!-- Roof / cabin -->
+          <path d="
+            M 215 118 L 225 90 L 255 72 L 310 62 L 365 58 L 410 60 L 450 68
+            L 480 80 L 500 96 L 500 108 L 470 98 L 435 92 L 390 90 L 340 92
+            L 285 100 L 240 112 Z
+          " fill="rgba(20,20,20,0.9)"/>
+
+          <!-- Windshield -->
+          <path d="
+            M 248 116 L 260 78 L 295 64 L 355 60 L 415 62 L 450 70 L 475 88 L 478 108 L 435 98
+            L 390 94 L 345 94 L 290 100 Z
+          " fill="url(#glassGrad)" opacity="0.9"/>
+
+          <!-- Windshield frame highlight -->
+          <path d="M 248 116 L 260 78 L 295 64" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+
+          <!-- Rear window -->
+          <path d="M 215 118 L 220 92 L 255 74 L 260 78 L 248 116 Z" fill="rgba(100,140,180,0.4)"/>
+
+          <!-- Side window -->
+          <path d="M 248 116 L 250 102 L 280 96 L 290 100 Z" fill="rgba(100,140,180,0.3)"/>
+
+          <!-- Door panel highlight -->
+          <path d="M 200 135 Q 300 125 400 120 L 405 130 Q 305 135 200 145 Z" fill="rgba(255,255,255,0.4)" />
+
+          <!-- Body bottom sill -->
+          <rect id="carSill" class="car-body-fill" x="150" y="225" width="350" height="8" rx="2" fill="#b0b5be"/>
+
+          <!-- Front fascia / bumper -->
+          <path d="M 565 158 L 580 175 L 590 190 L 600 210 L 600 230 L 575 230 L 570 215 L 560 195 L 548 175 Z" fill="#cccccc"/>
+          <!-- Front headlight -->
+          <ellipse cx="578" cy="168" rx="14" ry="7" fill="#ffffff" opacity="0.95"/>
+          <ellipse cx="578" cy="168" rx="10" ry="4.5" fill="#f0f0f0" opacity="0.8"/>
+
+          <!-- Rear bumper -->
+          <path d="M 85 200 L 90 175 L 100 165 L 100 228 L 85 224 Z" fill="#cccccc"/>
+          <!-- Rear light -->
+          <rect x="88" y="185" width="8" height="22" rx="2" fill="#ff4500" opacity="0.9"/>
+
+          <!-- Side mirror -->
+          <path d="M 525 135 L 540 130 L 545 140 L 530 145 Z" fill="#999999"/>
+
+          <!-- Door handle -->
+          <rect x="380" y="152" width="28" height="5" rx="2.5" fill="rgba(0,0,0,0.3)"/>
+
+          <!-- Exhaust hint -->
+          <ellipse cx="92" cy="222" rx="5" ry="3" fill="rgba(0,0,0,0.6)"/>
+          <ellipse cx="104" cy="222" rx="5" ry="3" fill="rgba(0,0,0,0.6)"/>
+
+          <!-- REAR WHEEL -->
+          <circle cx="185" cy="235" r="42" fill="#111"/>
+          <circle cx="185" cy="235" r="40" fill="url(#tireGrad)"/>
+          <circle cx="185" cy="235" r="30" fill="url(#wheelGrad)"/>
+          <!-- spokes -->
+          <g stroke="rgba(100,100,100,0.8)" stroke-width="2.5" stroke-linecap="round">
+            <line x1="185" y1="208" x2="185" y2="220"/>
+            <line x1="185" y1="250" x2="185" y2="262"/>
+            <line x1="158" y1="235" x2="170" y2="235"/>
+            <line x1="200" y1="235" x2="212" y2="235"/>
+            <line x1="166" y1="216" x2="174" y2="224"/>
+            <line x1="196" y1="246" x2="204" y2="254"/>
+            <line x1="204" y1="216" x2="196" y2="224"/>
+            <line x1="174" y1="246" x2="166" y2="254"/>
+            <line x1="166" y1="254" x2="174" y2="246"/>
+          </g>
+          <circle cx="185" cy="235" r="8" fill="#222"/>
+          <circle cx="185" cy="235" r="4" fill="#999"/>
+
+          <!-- FRONT WHEEL -->
+          <circle cx="515" cy="235" r="42" fill="#111"/>
+          <circle cx="515" cy="235" r="40" fill="url(#tireGrad)"/>
+          <circle cx="515" cy="235" r="30" fill="url(#wheelGrad)"/>
+          <g stroke="rgba(100,100,100,0.8)" stroke-width="2.5" stroke-linecap="round">
+            <line x1="515" y1="208" x2="515" y2="220"/>
+            <line x1="515" y1="250" x2="515" y2="262"/>
+            <line x1="488" y1="235" x2="500" y2="235"/>
+            <line x1="530" y1="235" x2="542" y2="235"/>
+            <line x1="496" y1="216" x2="504" y2="224"/>
+            <line x1="526" y1="246" x2="534" y2="254"/>
+            <line x1="534" y1="216" x2="526" y2="224"/>
+            <line x1="504" y1="246" x2="496" y2="254"/>
+          </g>
+          <circle cx="515" cy="235" r="8" fill="#222"/>
+          <circle cx="515" cy="235" r="4" fill="#999"/>
+
+          <!-- Porsche wordmark area -->
+          <text x="350" y="150" text-anchor="middle" font-size="8" fill="rgba(0,0,0,0.5)" font-family="'Space Mono', monospace" letter-spacing="3" font-weight="700">PORSCHE 911 CARRERA 4S</text>
+        </svg>
+      </div>
+
+      <p class="rotate-hint">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9M3 12V3m0 9H12"/></svg>
+        Arrastra para rotar &nbsp;·&nbsp; Toca los puntos para cambiar el color
+      </p>
+    </div>
+
+    <!-- Stats HUD -->
+    <div class="stats-hud">
+      <div class="stat-cell highlight">
+        <div class="stat-val" id="hp-val">443<span class="unit">CV</span></div>
+        <div class="stat-lbl">Potencia</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-val">3.4<span class="unit">s</span></div>
+        <div class="stat-lbl">0–100 km/h</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-val">305<span class="unit">km/h</span></div>
+        <div class="stat-lbl">Velocidad Máx</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-val">AWD<span class="unit"></span></div>
+        <div class="stat-lbl">Tracción</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM SECTION -->
+<section class="bg-surface">
+  <div class="section-inner">
+    <p class="section-label">El Problema</p>
+    <h2 class="section-title">Comprar lujo en línea todavía se siente plano.</h2>
+    <p class="section-body">Las fotos estáticas y las hojas de especificaciones no pueden decirte cómo se siente una máquina en reposo, cómo domina una habitación, o cómo huele el cuero a las 7 de la mañana. Autofixer cierra esa brecha.</p>
+
+    <div class="problem-grid">
+      <div class="problem-side">
+        <span class="problem-side-label bad">Listado tradicional</span>
+        <ul class="pain-list">
+          <li><span class="icon">📷</span> 8 fotos planas, sin profundidad</li>
+          <li><span class="icon">📄</span> Hoja de especificaciones genérica</li>
+          <li><span class="icon">❓</span> Imposible juzgar la escala real</li>
+          <li><span class="icon">😐</span> Cero conexión emocional</li>
+          <li><span class="icon">🚗</span> Requiere viaje al concesionario</li>
+        </ul>
+      </div>
+      <div class="problem-side right">
+        <span class="problem-side-label good">Autofixer RV/RA</span>
+        <ul class="pain-list">
+          <li class="good-item"><span class="icon">🥽</span> Camina alrededor del modelo en RV a escala real</li>
+          <li class="good-item"><span class="icon">📊</span> Estadísticas de rendimiento animadas en vivo</li>
+          <li class="good-item"><span class="icon">📐</span> Tamaños en el mundo real con RA en tu garaje</li>
+          <li class="good-item"><span class="icon">🎧</span> Audio del motor y ambiente interior</li>
+          <li class="good-item"><span class="icon">🏠</span> Compra desde cualquier lugar de la Tierra</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-inner">
+    <p class="section-label">Características Principales</p>
+    <h2 class="section-title">Autofixer transforma la búsqueda en experiencia.</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-num">01</div>
+        <div class="feature-title">Inmersión RV a Escala Real</div>
+        <div class="feature-desc">Camina alrededor de cualquier vehículo a escala 1:1 dentro de una sala de exposición fotorrealista. Abre puertas, siéntate en el asiento del conductor, siente el espacio.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">02</div>
+        <div class="feature-title">Panel de Rendimiento en Vivo</div>
+        <div class="feature-desc">Curvas de potencia animadas, mapas de par motor, simulaciones de 0–100. Cada estadística se entrega con claridad cinematográfica, sin estar oculta en un PDF.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">03</div>
+        <div class="feature-title">Vista Previa RA en Cualquier Lugar</div>
+        <div class="feature-desc">Apunta tu teléfono a la entrada de tu casa. Genera un Porsche 911 en realidad aumentada. Camina a su alrededor. Cambia la pintura. Muéstraselo a tu familia.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">04</div>
+        <div class="feature-title">Configurador en Tiempo Real</div>
+        <div class="feature-desc">Cambia los colores de la pintura, los materiales del interior y los diseños de las ruedas en vivo tanto en RV como en RA. Ve cada combinación antes de decidir.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">05</div>
+        <div class="feature-title">Simulación de Sonido</div>
+        <div class="feature-desc">Escucha el rugido del motor bóxer al arrancar. El audio espacial coloca el motor exactamente donde se encuentra bajo el capó, en auriculares o altavoces.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">06</div>
+        <div class="feature-title">Integración con Concesionarios</div>
+        <div class="feature-desc">Los concesionarios publican su inventario en vivo directamente en Autofixer. Vehículos reales, precios reales, disponibilidad real: sin stock fantasma.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how" class="bg-surface">
+  <div class="section-inner">
+    <p class="section-label">Cómo Funciona</p>
+    <h2 class="section-title">Tres pasos. Una decisión.</h2>
+    <div class="steps-row">
+      <div class="step-box">
+        <div class="step-num">01</div>
+        <div class="step-title">Elige un vehículo</div>
+        <div class="step-desc">Navega por el catálogo de Autofixer. Filtra por marca, modelo, presupuesto y especificaciones. Selecciona un vehículo para comenzar.</div>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step-box">
+        <div class="step-num">02</div>
+        <div class="step-title">Entra en modo RV o RA</div>
+        <div class="step-desc">Ponte el casco para una inmersión total en RV, o toca "Vista Previa RA" para colocar el coche en tu entorno real.</div>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step-box">
+        <div class="step-num">03</div>
+        <div class="step-title">Experimenta antes de comprar</div>
+        <div class="step-desc">Configúralo, explóralo, siéntelo. Cuando estés listo, conéctate directamente con el concesionario, sin sorpresas.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section>
+  <div class="section-inner">
+    <p class="section-label">Acceso Anticipado</p>
+    <h2 class="section-title">Lo que dice la industria.</h2>
+    <div class="testimonials-grid">
+      <div class="testimonial">
+        <p class="testimonial-quote">"Esto cambia para siempre la compra de coches de lujo. Configuré mi Cayenne en RV, lo estacioné en RA en la entrada de mi casa y firmé el papeleo esa misma tarde."</p>
+        <div class="testimonial-author"><strong>Marco A.</strong>Acceso Anticipado — Comprador de Porsche, Miami</div>
+      </div>
+      <div class="testimonial">
+        <p class="testimonial-quote">"Integramos Autofixer en nuestro piso de exposición. El tráfico digital subió un 340% y el tiempo de conversión se redujo de 14 días a menos de 4."</p>
+        <div class="testimonial-author"><strong>Director de Concesionario</strong>Grupo de Lujo Europeo, Los Ángeles</div>
+      </div>
+      <div class="testimonial">
+        <p class="testimonial-quote">"La vista previa en RA es la función que toda marca de automóviles premium ha estado esperando. Autofixer está a años luz de lo que los fabricantes están construyendo internamente."</p>
+        <div class="testimonial-author"><strong>Elena V.</strong>Analista de Tecnología Automotriz, TechCrunch</div>
+      </div>
+      <div class="testimonial">
+        <p class="testimonial-quote">"Volé a Alemania para especificar mi último coche. Con Autofixer, hice lo mismo desde mi sala de estar en 40 minutos. Misma decisión. Mejor experiencia."</p>
+        <div class="testimonial-author"><strong>James K.</strong>Coleccionista, 9 vehículos — Londres</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" class="bg-surface">
+  <div class="section-inner">
+    <p class="section-label">Planes</p>
+    <h2 class="section-title">Comienza gratis. Hazlo inmersivo.</h2>
+    <div class="pricing-grid">
+      <div class="plan-card">
+        <div class="plan-name">Demo Gratuito</div>
+        <div class="plan-price"><span>$</span>0</div>
+        <div class="plan-period">gratis para siempre</div>
+        <ul class="plan-features">
+          <li><span class="check">✓</span> 3 vehículos en vista previa RA</li>
+          <li><span class="check">✓</span> Panel de especificaciones básico</li>
+          <li><span class="check">✓</span> Acceso RA móvil</li>
+          <li style="opacity:0.35">— Sala de exposición en RV completa</li>
+          <li style="opacity:0.35">— Configurador de color</li>
+        </ul>
+        <button class="plan-btn ghost">Comenzar</button>
+      </div>
+      <div class="plan-card featured">
+        <div class="plan-badge">Más Popular</div>
+        <div class="plan-name">Premium</div>
+        <div class="plan-price"><span>$</span>49</div>
+        <div class="plan-period">por mes</div>
+        <ul class="plan-features">
+          <li><span class="check">✓</span> Acceso completo a la sala RV</li>
+          <li><span class="check">✓</span> Vistas previas en RA ilimitadas</li>
+          <li><span class="check">✓</span> Configurador en tiempo real</li>
+          <li><span class="check">✓</span> Simulación de sonido del motor</li>
+          <li><span class="check">✓</span> Conexión directa con concesionarios</li>
+        </ul>
+        <button class="plan-btn solid">Inicia Prueba Gratuita</button>
+      </div>
+      <div class="plan-card">
+        <div class="plan-name">Suite de Concesionarios</div>
+        <div class="plan-price"><span>$</span>299</div>
+        <div class="plan-period">por mes · por ubicación</div>
+        <ul class="plan-features">
+          <li><span class="check">✓</span> Integración completa de inventario</li>
+          <li><span class="check">✓</span> Sala de exposición RV con marca</li>
+          <li><span class="check">✓</span> Panel de analíticas</li>
+          <li><span class="check">✓</span> Sincronización CRM de leads</li>
+          <li><span class="check">✓</span> Soporte prioritario</li>
+        </ul>
+        <button class="plan-btn ghost" onclick="sendPrompt('Quiero saber más sobre el plan Suite para Concesionarios de Autofixer')">Contactar a Ventas ↗</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="cta-section">
+  <div class="cta-bg"></div>
+  <div class="cta-line"></div>
+  <h2 class="cta-title">El futuro de la compra<br>de coches de lujo comienza ahora.</h2>
+  <p class="cta-sub">Únete a más de 4,200 primeros adoptantes. No se requiere tarjeta de crédito.</p>
+  <div class="cta-buttons">
+    <button class="btn-primary" style="padding: 1rem 2.5rem; font-size: 0.88rem;" onclick="sendPrompt('Quiero unirme a la lista de espera de Autofixer y saber sobre el acceso anticipado')">Unirse a la Lista de Espera ↗</button>
+    <button class="btn-ghost" style="padding: 1rem 2.5rem; font-size: 0.88rem;">Solicitar Presentación para Inversores</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <img src="Autofixer.PNG" alt="Autofixer Logo">
+  </div>
+  <div class="footer-copy">© 2026 Autofixer Inc. — Míralo. Siéntelo. Cómpralo.</div>
+</footer>
+
+<script>
+  function setColor(bodyColor, shadowColor, el) {
+    document.querySelectorAll('.car-body-fill').forEach(p => p.setAttribute('fill', bodyColor));
+    document.getElementById('carSill').setAttribute('fill', shadowColor);
+    document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  // Simple drag-to-tilt effect on the car
+  const carSvg = document.querySelector('.car-svg-wrap');
+  let isDragging = false, startX = 0;
+  carSvg.addEventListener('mousedown', e => { isDragging = true; startX = e.clientX; });
+  window.addEventListener('mouseup', () => { isDragging = false; });
+  window.addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    const delta = (e.clientX - startX) * 0.03;
+    carSvg.querySelector('svg').style.transform = `scaleX(${Math.max(0.82, Math.min(1, 1 - Math.abs(delta) * 0.05))}) skewX(${Math.max(-6, Math.min(6, delta))}deg)`;
+    carSvg.querySelector('svg').style.transition = 'none';
+  });
+  window.addEventListener('mouseup', () => {
+    if (carSvg.querySelector('svg')) {
+      carSvg.querySelector('svg').style.transform = '';
+      carSvg.querySelector('svg').style.transition = 'transform 0.5s ease';
+    }
+  });
+
+  // Stat counter animation
+  function animateCounter(el, end, suffix, duration) {
+    let start = 0;
+    const step = end / (duration / 16);
+    const timer = setInterval(() => {
+      start = Math.min(start + step, end);
+      el.innerHTML = Math.round(start) + '<span class="unit">' + suffix + '</span>';
+      if (start >= end) clearInterval(timer);
+    }, 16);
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        animateCounter(document.getElementById('hp-val'), 443, 'CV', 1200);
+        observer.disconnect();
+      }
+    });
+  }, { threshold: 0.4 });
+  observer.observe(document.querySelector('.stats-hud'));
+</script>
+
+</body>
+</html>
