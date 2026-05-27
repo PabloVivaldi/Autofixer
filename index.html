@@ -126,7 +126,7 @@
     background: var(--orange);
   }
 
-  /* Estilos para el nuevo logo en el inicio */
+  /* Logo en el inicio */
   .hero-logo {
     position: relative;
     z-index: 1;
@@ -209,7 +209,7 @@
     position: relative;
     background: var(--surface);
     border: 1px solid var(--border-dark);
-    padding: 3rem 2rem 2rem;
+    padding: 4rem 2rem 3rem;
     overflow: hidden;
   }
 
@@ -228,8 +228,13 @@
     cursor: grab;
   }
 
-  /* Porsche SVG */
-  .porsche-svg { width: 100%; max-width: 700px; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.05)); }
+  /* Nueva clase para la imagen del Porsche */
+  .porsche-img { 
+    width: 100%; 
+    max-width: 750px; 
+    height: auto;
+    filter: drop-shadow(0 25px 35px rgba(0,0,0,0.15)); 
+  }
 
   /* Rotation hint */
   .rotate-hint {
@@ -238,7 +243,7 @@
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--text-muted);
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     font-family: 'Space Mono', monospace;
     display: flex; align-items: center; gap: 0.5rem; justify-content: center;
   }
@@ -620,10 +625,7 @@
     0%, 100% { transform: translateY(0px); }
     50% { transform: translateY(-4px); }
   }
-  .porsche-svg { animation: carFloat 5s ease-in-out infinite; }
-
-  /* Interactive color switch */
-  .car-body-fill { transition: fill 0.4s ease; }
+  .porsche-img { animation: carFloat 5s ease-in-out infinite; }
 </style>
 </head>
 <body>
@@ -649,12 +651,12 @@
 
   <p class="hero-eyebrow">Comercio Automotriz Inmersivo</p>
   
-  <!-- Nuevo bloque de Logo integrado sobre el eslogan -->
+  <!-- Logo en el inicio sobre el eslogan -->
   <div class="hero-logo">
     <img src="Autofixer.PNG" alt="Autofixer Logo">
   </div>
   
-  <!-- Eslogan cambiado al inglés -->
+  <!-- Eslogan en inglés -->
   <h1 class="hero-headline">See It.<br><span class="accent">Feel It.</span><br>Buy It.</h1>
   <p class="hero-sub">Experimenta vehículos de lujo a escala real en RV y RA antes de comprometerte con tu próxima compra. El futuro de las compras automotrices ya está aquí.</p>
 
@@ -666,7 +668,7 @@
   <!-- Car Visualizer -->
   <div class="car-viz" id="showcase">
     <div class="car-stage">
-      <!-- Color Picker -->
+      <!-- Color Picker (Mantenido visualmente, desactivado de forma segura en JS) -->
       <div class="color-picker">
         <div class="color-dot active" style="background:#e8e8e8" title="Cromo Plateado" onclick="setColor('#e8e8e8', '#b0b5be', this)"></div>
         <div class="color-dot" style="background:#1a1a1a" title="Negro Mate" onclick="setColor('#1a1a1a', '#333', this)"></div>
@@ -676,145 +678,13 @@
       </div>
 
       <div class="car-svg-wrap">
-        <!-- Porsche 911 Side Profile SVG -->
-        <svg class="porsche-svg" viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <radialGradient id="wheelGrad" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#dddddd"/>
-              <stop offset="60%" stop-color="#aaaaaa"/>
-              <stop offset="100%" stop-color="#666666"/>
-            </radialGradient>
-            <radialGradient id="tireGrad" cx="50%" cy="30%" r="60%">
-              <stop offset="0%" stop-color="#333"/>
-              <stop offset="100%" stop-color="#111"/>
-            </radialGradient>
-            <linearGradient id="bodyGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="rgba(255,255,255,0.7)"/>
-              <stop offset="40%" stop-color="rgba(255,255,255,0.2)"/>
-              <stop offset="100%" stop-color="rgba(0,0,0,0.1)"/>
-            </linearGradient>
-            <linearGradient id="glassGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="rgba(160,210,255,0.4)"/>
-              <stop offset="100%" stop-color="rgba(80,140,200,0.1)"/>
-            </linearGradient>
-            <filter id="groundShadow">
-              <feGaussianBlur stdDeviation="8" result="blur"/>
-              <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.25 0" in="blur" result="shadow"/>
-              <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-          </defs>
-
-          <!-- Ground shadow -->
-          <ellipse cx="350" cy="258" rx="230" ry="12" fill="rgba(0,0,0,0.1)" filter="url(#groundShadow)"/>
-
-          <!-- Body main -->
-          <path id="carBodyMain" class="car-body-fill" d="
-            M 100 220 L 85 200 L 90 175 L 120 148 L 165 128 L 210 118 L 240 112 L 285 100
-            L 340 92 L 390 90 L 435 92 L 470 98 L 500 108 L 525 122 L 545 140 L 565 158
-            L 580 175 L 590 190 L 600 210 L 600 225 L 575 230 L 480 232 L 280 232 L 170 230
-            L 100 228 Z
-          " fill="#e8e8e8"/>
-
-          <!-- Body gradient overlay -->
-          <path d="
-            M 100 220 L 85 200 L 90 175 L 120 148 L 165 128 L 210 118 L 240 112 L 285 100
-            L 340 92 L 390 90 L 435 92 L 470 98 L 500 108 L 525 122 L 545 140 L 565 158
-            L 580 175 L 590 190 L 600 210 L 600 225 L 100 228 Z
-          " fill="url(#bodyGrad)"/>
-
-          <!-- Roof / cabin -->
-          <path d="
-            M 215 118 L 225 90 L 255 72 L 310 62 L 365 58 L 410 60 L 450 68
-            L 480 80 L 500 96 L 500 108 L 470 98 L 435 92 L 390 90 L 340 92
-            L 285 100 L 240 112 Z
-          " fill="rgba(20,20,20,0.9)"/>
-
-          <!-- Windshield -->
-          <path d="
-            M 248 116 L 260 78 L 295 64 L 355 60 L 415 62 L 450 70 L 475 88 L 478 108 L 435 98
-            L 390 94 L 345 94 L 290 100 Z
-          " fill="url(#glassGrad)" opacity="0.9"/>
-
-          <!-- Windshield frame highlight -->
-          <path d="M 248 116 L 260 78 L 295 64" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round"/>
-
-          <!-- Rear window -->
-          <path d="M 215 118 L 220 92 L 255 74 L 260 78 L 248 116 Z" fill="rgba(100,140,180,0.4)"/>
-
-          <!-- Side window -->
-          <path d="M 248 116 L 250 102 L 280 96 L 290 100 Z" fill="rgba(100,140,180,0.3)"/>
-
-          <!-- Door panel highlight -->
-          <path d="M 200 135 Q 300 125 400 120 L 405 130 Q 305 135 200 145 Z" fill="rgba(255,255,255,0.4)" />
-
-          <!-- Body bottom sill -->
-          <rect id="carSill" class="car-body-fill" x="150" y="225" width="350" height="8" rx="2" fill="#b0b5be"/>
-
-          <!-- Front fascia / bumper -->
-          <path d="M 565 158 L 580 175 L 590 190 L 600 210 L 600 230 L 575 230 L 570 215 L 560 195 L 548 175 Z" fill="#cccccc"/>
-          <!-- Front headlight -->
-          <ellipse cx="578" cy="168" rx="14" ry="7" fill="#ffffff" opacity="0.95"/>
-          <ellipse cx="578" cy="168" rx="10" ry="4.5" fill="#f0f0f0" opacity="0.8"/>
-
-          <!-- Rear bumper -->
-          <path d="M 85 200 L 90 175 L 100 165 L 100 228 L 85 224 Z" fill="#cccccc"/>
-          <!-- Rear light -->
-          <rect x="88" y="185" width="8" height="22" rx="2" fill="#ff4500" opacity="0.9"/>
-
-          <!-- Side mirror -->
-          <path d="M 525 135 L 540 130 L 545 140 L 530 145 Z" fill="#999999"/>
-
-          <!-- Door handle -->
-          <rect x="380" y="152" width="28" height="5" rx="2.5" fill="rgba(0,0,0,0.3)"/>
-
-          <!-- Exhaust hint -->
-          <ellipse cx="92" cy="222" rx="5" ry="3" fill="rgba(0,0,0,0.6)"/>
-          <ellipse cx="104" cy="222" rx="5" ry="3" fill="rgba(0,0,0,0.6)"/>
-
-          <!-- REAR WHEEL -->
-          <circle cx="185" cy="235" r="42" fill="#111"/>
-          <circle cx="185" cy="235" r="40" fill="url(#tireGrad)"/>
-          <circle cx="185" cy="235" r="30" fill="url(#wheelGrad)"/>
-          <!-- spokes -->
-          <g stroke="rgba(100,100,100,0.8)" stroke-width="2.5" stroke-linecap="round">
-            <line x1="185" y1="208" x2="185" y2="220"/>
-            <line x1="185" y1="250" x2="185" y2="262"/>
-            <line x1="158" y1="235" x2="170" y2="235"/>
-            <line x1="200" y1="235" x2="212" y2="235"/>
-            <line x1="166" y1="216" x2="174" y2="224"/>
-            <line x1="196" y1="246" x2="204" y2="254"/>
-            <line x1="204" y1="216" x2="196" y2="224"/>
-            <line x1="174" y1="246" x2="166" y2="254"/>
-            <line x1="166" y1="254" x2="174" y2="246"/>
-          </g>
-          <circle cx="185" cy="235" r="8" fill="#222"/>
-          <circle cx="185" cy="235" r="4" fill="#999"/>
-
-          <!-- FRONT WHEEL -->
-          <circle cx="515" cy="235" r="42" fill="#111"/>
-          <circle cx="515" cy="235" r="40" fill="url(#tireGrad)"/>
-          <circle cx="515" cy="235" r="30" fill="url(#wheelGrad)"/>
-          <g stroke="rgba(100,100,100,0.8)" stroke-width="2.5" stroke-linecap="round">
-            <line x1="515" y1="208" x2="515" y2="220"/>
-            <line x1="515" y1="250" x2="515" y2="262"/>
-            <line x1="488" y1="235" x2="500" y2="235"/>
-            <line x1="530" y1="235" x2="542" y2="235"/>
-            <line x1="496" y1="216" x2="504" y2="224"/>
-            <line x1="526" y1="246" x2="534" y2="254"/>
-            <line x1="534" y1="216" x2="526" y2="224"/>
-            <line x1="504" y1="246" x2="496" y2="254"/>
-          </g>
-          <circle cx="515" cy="235" r="8" fill="#222"/>
-          <circle cx="515" cy="235" r="4" fill="#999"/>
-
-          <!-- Porsche wordmark area -->
-          <text x="350" y="150" text-anchor="middle" font-size="8" fill="rgba(0,0,0,0.5)" font-family="'Space Mono', monospace" letter-spacing="3" font-weight="700">PORSCHE 911 CARRERA 4S</text>
-        </svg>
+        <!-- Reemplazo de SVG por la nueva imagen del Porsche 911 Carrera 4S -->
+        <img class="porsche-img" src="https://a.storyblok.com/f/322327/2616x712/d8c77a8efa/cz26w05ix0010-911-carrera-4s-side.png/m/1800x490/smart/filters:format(avif)?dpl=dpl_FFCXzWQk3dMf7U5zNBWvpbzr2JKF" alt="Porsche 911 Carrera 4S Side Profile">
       </div>
 
       <p class="rotate-hint">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9M3 12V3m0 9H12"/></svg>
-        Arrastra para rotar &nbsp;·&nbsp; Toca los puntos para cambiar el color
+        Arrastra para inclinar &nbsp;·&nbsp; Porsche 911 Carrera 4S
       </p>
     </div>
 
@@ -881,7 +751,7 @@
       <div class="feature-card">
         <div class="feature-num">01</div>
         <div class="feature-title">Inmersión RV a Escala Real</div>
-        <div class="feature-desc">Camina alrededor de cualquier vehicle a escala 1:1 dentro de una sala de exposición fotorrealista. Abre puertas, siéntate en el asiento del conductor, siente el espacio.</div>
+        <div class="feature-desc">Camina alrededor de cualquier vehículo a escala 1:1 dentro de una sala de exposición fotorrealista. Abre puertas, siéntate en el asiento del conductor, siente el espacio.</div>
       </div>
       <div class="feature-card">
         <div class="feature-num">02</div>
@@ -953,7 +823,7 @@
           <li><span class="check">✓</span> 3 vehículos en vista previa RA</li>
           <li><span class="check">✓</span> Panel de especificaciones básico</li>
           <li><span class="check">✓</span> Acceso RA móvil</li>
-          <li style="opacity:0.35">— Sala de exposición en RV completa</li>
+          <li style="opacity:0.35">— Sala de showroom en RV completa</li>
           <li style="opacity:0.35">— Configurador de color</li>
         </ul>
         <button class="plan-btn ghost">Comenzar</button>
@@ -993,8 +863,8 @@
 <section class="cta-section">
   <div class="cta-bg"></div>
   <div class="cta-line"></div>
-  <h2 class="cta-title">El futuro de la compra<br>de autos de lujo comienza ahora.</h2>
-  <p class="cta-sub">Únete a la lista de espera. No se requiere tarjeta de crédito.</p>
+  <h2 class="cta-title">El futuro de la compra<br>de coches de lujo comienza ahora.</h2>
+  <p class="cta-sub">Únete a más de 4,200 primeros adoptantes. No se requiere tarjeta de crédito.</p>
   <div class="cta-buttons">
     <button class="btn-primary" style="padding: 1rem 2.5rem; font-size: 0.88rem;" onclick="sendPrompt('Quiero unirme a la lista de espera de Autofixer y saber sobre el acceso anticipado')">Unirse a la Lista de Espera ↗</button>
     <button class="btn-ghost" style="padding: 1rem 2.5rem; font-size: 0.88rem;">Solicitar Presentación para Inversores</button>
@@ -1006,37 +876,43 @@
   <div class="footer-logo">
     <img src="Autofixer.PNG" alt="Autofixer Logo">
   </div>
-  <!-- Slogan cambiado al inglés en footer -->
   <div class="footer-copy">© 2026 Autofixer Inc. — See It, Feel It, Buy It</div>
 </footer>
 
 <script>
   function setColor(bodyColor, shadowColor, el) {
+    // Salvaguarda para evitar errores de ejecución ya que no hay SVG activo
     document.querySelectorAll('.car-body-fill').forEach(p => p.setAttribute('fill', bodyColor));
-    document.getElementById('carSill').setAttribute('fill', shadowColor);
+    const carSill = document.getElementById('carSill');
+    if (carSill) carSill.setAttribute('fill', shadowColor);
+    
     document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
     el.classList.add('active');
   }
 
-  // Simple drag-to-tilt effect on the car
-  const carSvg = document.querySelector('.car-svg-wrap');
+  // Efecto de arrastrar para inclinar adaptado para la nueva etiqueta img
+  const carWrap = document.querySelector('.car-svg-wrap');
   let isDragging = false, startX = 0;
-  carSvg.addEventListener('mousedown', e => { isDragging = true; startX = e.clientX; });
+  carWrap.addEventListener('mousedown', e => { isDragging = true; startX = e.clientX; });
   window.addEventListener('mouseup', () => { isDragging = false; });
   window.addEventListener('mousemove', e => {
     if (!isDragging) return;
     const delta = (e.clientX - startX) * 0.03;
-    carSvg.querySelector('svg').style.transform = `scaleX(${Math.max(0.82, Math.min(1, 1 - Math.abs(delta) * 0.05))}) skewX(${Math.max(-6, Math.min(6, delta))}deg)`;
-    carSvg.querySelector('svg').style.transition = 'none';
+    const img = carWrap.querySelector('img');
+    if (img) {
+      img.style.transform = `scaleX(${Math.max(0.82, Math.min(1, 1 - Math.abs(delta) * 0.05))}) skewX(${Math.max(-6, Math.min(6, delta))}deg)`;
+      img.style.transition = 'none';
+    }
   });
   window.addEventListener('mouseup', () => {
-    if (carSvg.querySelector('svg')) {
-      carSvg.querySelector('svg').style.transform = '';
-      carSvg.querySelector('svg').style.transition = 'transform 0.5s ease';
+    const img = carWrap.querySelector('img');
+    if (img) {
+      img.style.transform = '';
+      img.style.transition = 'transform 0.5s ease';
     }
   });
 
-  // Stat counter animation
+  // Animación del contador de estadísticas
   function animateCounter(el, end, suffix, duration) {
     let start = 0;
     const step = end / (duration / 16);
